@@ -1,0 +1,22 @@
+﻿
+@model IEnumerable<string>
+
+@*btn-group-justified:让一组按钮两端对齐排列*@
+<div class="btn-group btn-group-sm btn-group-justified">
+    @Html.ActionLink("全部", "List", "Product", null, new { @class = "btn btn-default btn-sm" })
+
+    @foreach (var item in Model)
+    {
+        @Html.RouteLink(item, new
+        {
+            controller = "Product",
+            action = "List",
+            category = item,
+            page = 1
+        }, new
+        {
+            @class = "btn btn-default btn-sm" + (item == ViewBag.SelectedCategory ? " btn-primary" : "")
+        })
+    }
+</div>
+

@@ -1,0 +1,74 @@
+﻿@model SportsStore.Domain.Entities.ShippingDetail
+
+@{
+    ViewBag.Title = "结算页";
+}
+
+<h2>立即结算</h2>
+<p>请查看你的邮箱，我们会马上发送你的货物。</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+
+    <h3>发货到</h3>
+    <div class="form-group">
+        <label>名称：</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "from-control" })
+    </div>
+
+    <h3>地址</h3>
+    @*<div class="form-group">
+            <label>住址2：</label>
+            @Html.TextBoxFor(x => x.Line1, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>住址3：</label>
+            @Html.TextBoxFor(x => x.Line2, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>名称：</label>
+            @Html.TextBoxFor(x => x.Line3, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>名称：</label>
+            @Html.TextBoxFor(x => x.City, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>名称：</label>
+            @Html.TextBoxFor(x => x.State, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>住址1：</label>
+            @Html.TextBoxFor(x => x.Zip, new { @class = "from-control" })
+        </div>
+        <div class="form-group">
+            <label>名称：</label>
+            @Html.TextBoxFor(x => x.Country, new { @class = "from-control" })
+        </div>*@
+
+    //优化重复的代码
+    //ViewData.ModelMetadata——视图的模型类型对象
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "from-control" })
+            </div>
+        }
+    }
+
+    <h3>选项</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            是否包装这些物品
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input type="submit" class="btn btn-primary" value="下单" />
+    </div>
+}
